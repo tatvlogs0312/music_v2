@@ -1,0 +1,79 @@
+.card-music {
+  background-color: rgba(160, 160, 160, 0.342);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 12rem;
+  border-radius: 0.3rem;
+  position: relative;
+  transition: all 0.45s;
+  cursor: pointer;
+  padding: 1rem;
+  margin: 15px 0;
+}
+
+.img-holder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.3rem;
+}
+
+.text {
+  margin-top: 1rem;
+  line-height: 1;
+}
+
+.text h2 {
+  font-size: 1em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.play-icon {
+  position: absolute;
+  top: 45%;
+  right: 12%;
+  transform: translateY(10px);
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.4));
+  opacity: 0;
+  transition: all 0.4s;
+}
+
+.card-music:hover .play-icon {
+  opacity: 1;
+  transform: translateY(0);
+  filter: brightness(100%);
+}
+
+.card-music:hover{
+  padding: 0.5rem;
+  filter: brightness(75%);
+}
+
+.cricle {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: rgb(50, 233, 60);
+  display: grid;
+  place-items: center;
+  transform: scale(0.95);
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 18px solid black;
+  transform: rotate(90deg);
+  margin-left: 0.2em;
+}
+
+.play-icon:hover .cricle {
+  cursor: auto;
+  transform: scale(1);
+  cursor: pointer;
+}

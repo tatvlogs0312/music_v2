@@ -1,0 +1,51 @@
+.p {
+  margin-bottom: 50px;
+}
+
+.history-music{
+  margin: 10px 0px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  border-radius: 5px;
+  position: relative;
+  /* filter: brightness(50%); */
+}
+
+.history-music img{
+  height: 100%;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.history-name{
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.history-listen{
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.history-listen > div:nth-child(1){
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.history-music:hover .play-icon-history {
+  opacity: 1;
+  transform: translateY(0);
+  filter: brightness(100%);
+}
+
+.play-icon-history {
+  position: absolute;
+  top: 22%;
+  right: 10%;
+  transform: translateY(25px);
+  filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.4));
+  opacity: 0;
+  transition: all 0.4s;
+}
