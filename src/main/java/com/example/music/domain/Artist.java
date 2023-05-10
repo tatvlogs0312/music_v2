@@ -1,5 +1,6 @@
 package com.example.music.domain;
 
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,4 +31,7 @@ public class Artist {
 
   @Column(name = "url_avatar")
   private String urlAvatar;
+
+  @Column(name = "create_date")
+  private LocalDateTime createDate;
 }

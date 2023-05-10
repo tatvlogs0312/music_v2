@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -75,10 +74,20 @@ public class SongServiceImpl implements SongService {
           var artists =
               artistOfSongDTOS.stream()
                   .filter(a -> a.getSongId().equals(x.getId()))
-                  .collect(Collectors.toList());
+                  .toList();
           songDTO.setArtists(artists);
           songDTOS.add(songDTO);
         });
     return songDTOS;
+  }
+
+  @Override
+  public List<Song> getNewestMusic() {
+    return songRepository.findNewestLimit6();
+  }
+
+  @Override
+  public List<Song> getTrendingMusic(){
+    return songRepository.findTrendingLimit6();
   }
 }

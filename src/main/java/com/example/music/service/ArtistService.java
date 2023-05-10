@@ -1,5 +1,8 @@
 package com.example.music.service;
 
-public interface ArtistService {
+import com.example.music.domain.Artist;
+import java.util.List;
 
+public interface ArtistService {
+  List<Artist> getArtistLimit10();
 }

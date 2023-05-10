@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;import o
 public interface ArtistRepository
     extends JpaRepository<Artist, Long>, JpaSpecificationExecutor<Artist> {
 
+  @Query(nativeQuery = true, value = "SELECT a.* FROM artist a ORDER BY a.create_date LIMIT 10")
+  List<Artist> findNewestLimit10();
+
   @Query(
       value =
           "SELECT a.id,a.name,a.url_avatar \n"
