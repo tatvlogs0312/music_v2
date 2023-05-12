@@ -5,6 +5,8 @@ public class Constants {
 
   }
 
+  public static final String authenImage = "authen.png";
+
   public static class Role {
     private Role(){
 
