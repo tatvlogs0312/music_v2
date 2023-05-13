@@ -25,10 +25,11 @@
 }
 
 .text h2 {
-  font-size: 1em;
+  font-size: 15px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  width: 160px;
 }
 
 .play-icon {
