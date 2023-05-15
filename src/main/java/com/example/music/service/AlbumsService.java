@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface AlbumsService {
   List<Albums> getAlbumsLimit6();
+
+  List<Albums> getAlbumsOfSong(Long id);
 }

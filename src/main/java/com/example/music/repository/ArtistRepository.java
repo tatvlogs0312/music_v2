@@ -12,7 +12,7 @@ public interface ArtistRepository
 
   @Query(
       value =
-          "SELECT a.id,a.name,a.url_avatar \n"
+          "SELECT a.* \n"
               + "FROM artist a \n"
               + "JOIN artist_song as2 ON a.id = as2.artist_id \n"
               + "WHERE as2.song_id = :idSong",

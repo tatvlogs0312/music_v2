@@ -1,7 +1,6 @@
 package com.example.music.utils;
 
 import java.time.LocalDate;
-import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.util.Strings;
 
 public class CommonUtils {
@@ -70,12 +69,30 @@ public class CommonUtils {
   public static Integer convertValueToInteger(Object[] objects, int index) {
     try {
       String temp = objects[index].toString();
-      if (Strings.isNotBlank(temp)) return Integer.valueOf(0);
+      if (Strings.isBlank(temp)) return 0;
       return Integer.valueOf(temp);
     } catch (Exception ex) {
       LogUtils.error(ex.getMessage());
     }
     return 0;
+  }
+
+  /**
+   * Convert to Integer
+   *
+   * @param objects value
+   * @param index value
+   * @return value
+   */
+  public static Long convertValueToLong(Object[] objects, int index) {
+    try {
+      String temp = objects[index].toString();
+      if (Strings.isBlank(temp)) return 0L;
+      return Long.valueOf(temp);
+    } catch (Exception ex) {
+      LogUtils.error(ex.getMessage());
+    }
+    return 0L;
   }
 
   /**

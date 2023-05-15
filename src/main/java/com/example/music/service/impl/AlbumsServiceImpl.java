@@ -17,4 +17,9 @@ public class AlbumsServiceImpl implements AlbumsService {
   public List<Albums> getAlbumsLimit6() {
     return albumsRepository.findAlbumsLimit6();
   }
+
+  @Override
+  public List<Albums> getAlbumsOfSong(Long id) {
+    return albumsRepository.findAllAlbumsContainSong(id);
+  }
 }

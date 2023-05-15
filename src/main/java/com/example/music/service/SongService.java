@@ -3,6 +3,7 @@ package com.example.music.service;
 import com.example.music.domain.Song;
 import com.example.music.model.song.SongDTO;
 import com.example.music.model.song.SongHistoryDTO;
+import com.example.music.model.song.SongOtherDTO;
 import java.util.List;
 
 public interface SongService {
@@ -13,4 +14,6 @@ public interface SongService {
   List<Song> getNewestMusic();
 
   List<Song> getTrendingMusic();
+
+  List<SongOtherDTO> getSongOther(Long songID);
 }

@@ -1,7 +1,5 @@
 package com.example.music.model.song;
 
-import com.example.music.model.artist.ArtistOfSongDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SongHistoryDTO {
+public class SongOtherDTO {
   private Long id;
   private String name;
   private String urlImage;
   private Integer year;
-  private Integer length;
+  private String length;
   private String artists;
 }

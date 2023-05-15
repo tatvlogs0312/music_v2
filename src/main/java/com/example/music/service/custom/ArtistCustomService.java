@@ -18,7 +18,6 @@ public class ArtistCustomService {
     if (!list.isEmpty()) {
       return list.stream().map(ArtistOfSongDTO::new).collect(Collectors.toList());
     }
-
     return new ArrayList<>();
   }
 }

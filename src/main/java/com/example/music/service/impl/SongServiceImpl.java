@@ -3,10 +3,10 @@ package com.example.music.service.impl;
 import com.example.music.domain.Artist;
 import com.example.music.domain.ListenHistory;
 import com.example.music.domain.Song;
-import com.example.music.model.artist.ArtistDTO;
 import com.example.music.model.song.SongDTO;
 import com.example.music.model.artist.ArtistOfSongDTO;
 import com.example.music.model.song.SongHistoryDTO;
+import com.example.music.model.song.SongOtherDTO;
 import com.example.music.repository.ArtistRepository;
 import com.example.music.repository.ListenHistoryRepository;
 import com.example.music.repository.SongRepository;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +45,13 @@ public class SongServiceImpl implements SongService {
     songDTO.setYear(song.getYear());
     songDTO.setLength(song.getLength());
     songDTO.setUrlImage(song.getUrlImage());
+    songDTO.setUrlMp3(song.getUrlMp3());
     List<Artist> artists = artistRepository.findAllByIdSong(idSong);
-    List<ArtistDTO> artistDTOS = new ArrayList<>();
+    String artistList = "";
     if (!artists.isEmpty()) {
-      artistDTOS = artists.stream().map(ArtistDTO::new).toList();
+      artistList = artists.stream().map(Artist::getName).collect(Collectors.joining(", "));
     }
-    songDTO.setArtists(artistDTOS);
+    songDTO.setArtists(artistList);
     return songDTO;
   }
 
@@ -72,10 +74,13 @@ public class SongServiceImpl implements SongService {
           songDTO.setLength(x.getLength());
           songDTO.setYear(x.getYear());
           var artists =
-              artistOfSongDTOS.stream()
-                  .filter(a -> a.getSongId().equals(x.getId()))
-                  .toList();
-          songDTO.setArtists(artists);
+              artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+          String artistList = "";
+          if (!artists.isEmpty()) {
+            artistList =
+                artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+          }
+          songDTO.setArtists(artistList);
           songDTOS.add(songDTO);
         });
     return songDTOS;
@@ -87,7 +92,34 @@ public class SongServiceImpl implements SongService {
   }
 
   @Override
-  public List<Song> getTrendingMusic(){
+  public List<Song> getTrendingMusic() {
     return songRepository.findTrendingLimit6();
+  }
+
+  @Override
+  public List<SongOtherDTO> getSongOther(Long songID) {
+    List<Song> songs = songRepository.getSongOtherLimit6(songID);
+    List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistCustomService.getArtistsOfSong(idSongs);
+    List<SongOtherDTO> songOther = new ArrayList<>();
+    songs.forEach(
+        x -> {
+          SongOtherDTO songDTO = new SongOtherDTO();
+          songDTO.setId(x.getId());
+          songDTO.setName(x.getName());
+          songDTO.setUrlImage(x.getUrlImage());
+          songDTO.setLength("5:20");
+          songDTO.setYear(x.getYear());
+          var artists =
+              artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+          String artistList = "";
+          if (!artists.isEmpty()) {
+            artistList =
+                artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+          }
+          songDTO.setArtists(artistList);
+          songOther.add(songDTO);
+        });
+    return songOther;
   }
 }
