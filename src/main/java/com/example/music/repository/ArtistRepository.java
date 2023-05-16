@@ -27,4 +27,7 @@ public interface ArtistRepository
               + "WHERE as2.song_id in (:idSong)",
       nativeQuery = true)
   List<Object[]> findAllByListIdSong(List<Long> idSong);
+
+  @Query(nativeQuery = true, value = "SELECT * FROM artist a ORDER BY create_date DESC")
+  List<Artist> findAllData();
 }

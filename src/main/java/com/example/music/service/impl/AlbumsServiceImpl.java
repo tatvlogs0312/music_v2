@@ -22,4 +22,9 @@ public class AlbumsServiceImpl implements AlbumsService {
   public List<Albums> getAlbumsOfSong(Long id) {
     return albumsRepository.findAllAlbumsContainSong(id);
   }
+
+  @Override
+  public List<Albums> getAlbumsData() {
+    return albumsRepository.findAllData();
+  }
 }

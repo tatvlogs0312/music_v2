@@ -16,4 +16,7 @@ public interface AlbumsRepository
       + "JOIN albums_song as2 ON a.id = as2.albums_id \n"
       + "                       AND as2.song_id = :songID")
   List<Albums> findAllAlbumsContainSong(Long songID);
+
+  @Query(nativeQuery = true, value = "SELECT * FROM albums a ORDER BY create_at DESC")
+  List<Albums> findAllData();
 }

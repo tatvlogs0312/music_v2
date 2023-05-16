@@ -101,7 +101,7 @@
       <div class="nav_list">
         <!-- Home -->
         <div>
-          <a href="#" class="nav_link active">
+          <a th:href="@{/}" class="nav_link active">
             <i class="fas fa-house"></i>
             <span class="nav_name">Khám phá</span>
           </a>
@@ -118,6 +118,20 @@
           <a href="#" class="nav_link">
             <i class="fas fa-magnifying-glass"></i>
             <span class="nav_name">Tìm kiếm</span>
+          </a>
+        </div>
+        <!-- Playlist -->
+        <div>
+          <a th:href="@{/albums}" class="nav_link">
+            <i class="fas fa-list-ul"></i>
+            <span class="nav_name">Playlist</span>
+          </a>
+        </div>
+        <!-- Artist -->
+        <div>
+          <a th:href="@{/artist}" class="nav_link">
+            <i class="fas fa-microphone-lines"></i>
+            <span class="nav_name">Ca sĩ</span>
           </a>
         </div>
         <!-- Liked Song -->
@@ -159,7 +173,9 @@
         <div class="song-duration">
           <div class="song-time">
             <div class="song-progress">
-              <audio th:src="@{${'mp3/'+song.urlMp3}}" class="audio" autoplay></audio>
+              <audio autoplay class="audio">
+                <source th:src="@{${'/mp3/'+song.urlMp3}}" type="audio/mp3">
+              </audio>
             </div>
           </div>
           <div class="time">
@@ -191,11 +207,11 @@
         </div>
         <div>
           <div class="music-orther" th:each="other : ${songOthers}">
-            <a href="">
+            <a th:href="@{/music/play(id=${other.id})}">
               <div class="music-orther-info">
 
                 <div class="orther-name-img">
-                  <img th:src="@{${'image/song/' + other.urlImage}}" alt="">
+                  <img th:src="@{${'/image/song/' + other.urlImage}}" alt="">
                   <div class="music-orther-info-name">
                     <div class="music-orther-song" th:text="${other.name}"></div>
                     <div class="music-orther-artist" th:text="${other.artists}"></div>
@@ -218,7 +234,7 @@
             <a href="">
               <section class="card-music">
                 <div class="img-holder">
-                  <img th:src="@{${'image/albums/' + album.urlImageAlbums}}" alt=""/>
+                  <img th:src="@{${'/image/album/' + album.urlImageAlbums}}" alt=""/>
                 </div>
                 <div class="text">
                   <h2 th:text="${album.albumsName}"></h2>
@@ -242,8 +258,8 @@
 <!-- jquery -->
 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
 
-<script th:src="@{js/sidebar.js}"></script>
-<script th:src="@{js/music.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/music.js}"></script>
 </body>
 
 </html>

@@ -39,6 +39,8 @@ public class SongServiceImpl implements SongService {
       return new SongDTO();
     }
     Song song = songOptional.get();
+    song.setListens(song.getListens() + 1);
+    songRepository.save(song);
     SongDTO songDTO = new SongDTO();
     songDTO.setId(song.getId());
     songDTO.setName(song.getName());

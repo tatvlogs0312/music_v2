@@ -6,21 +6,26 @@ const playPauseBtn = document.querySelector(".play-pause");
 const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 const audio = document.querySelector(".audio");
+const srcMp3 = document.querySelector(".audio source")
 const songTime = document.querySelector(".song-time");
 const songProgress = document.querySelector(".song-progress");
 const coverArtist = document.querySelector(".cover span:nth-child(1)");
 const coverName = document.querySelector(".cover span:nth-child(2)");
 
-window.addEventListener("load", () =>{
+// window.addEventListener("load", () =>{
+//   loadSong();
+// }
+
+window.onload = function () {
   loadSong();
-})
+}
 
 const loadSong = () => {
   // coverName.textContent = songData[index].name;
   // coverArtist.textContent = songData[index].artist;
   // songName.textContent = songData[index].name;
   // songArtist.textContent = songData[index].artist;
-  audio.src = audio.getAttribute("src");
+  audio.src = srcMp3.getAttribute('src');
 };
 
 const playSong = () => {

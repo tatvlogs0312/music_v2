@@ -16,4 +16,9 @@ public class ArtistServiceImpl implements ArtistService {
   public List<Artist> getArtistLimit10() {
     return artistRepository.findNewestLimit10();
   }
+
+  @Override
+  public List<Artist> getAllArtistData() {
+    return artistRepository.findAllData();
+  }
 }

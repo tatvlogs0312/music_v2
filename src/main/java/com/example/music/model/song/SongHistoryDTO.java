@@ -1,7 +1,5 @@
 package com.example.music.model.song;
 
-import com.example.music.model.artist.ArtistOfSongDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
