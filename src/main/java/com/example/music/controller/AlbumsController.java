@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/albums")
@@ -20,7 +20,7 @@ public class AlbumsController {
   private final UserService userService;
 
   @GetMapping()
-  public String getAllArtist(Model model, HttpServletRequest request) {
+  public String getAllAlbums(Model model, HttpServletRequest request) {
     if (Objects.nonNull(request.getUserPrincipal())) {
       String email = request.getUserPrincipal().getName();
       var user = userService.me(email);
@@ -28,5 +28,15 @@ public class AlbumsController {
     }
     model.addAttribute("albums", albumsService.getAlbumsData());
     return "albums";
+  }
+
+  @GetMapping("/details/{id}")
+  public String getAlbumsDetail(@PathVariable Long id, Model model, HttpServletRequest request){
+    if (Objects.nonNull(request.getUserPrincipal())) {
+      String email = request.getUserPrincipal().getName();
+      var user = userService.me(email);
+      model.addAttribute("user", user);
+    }
+    return "";
   }
 }

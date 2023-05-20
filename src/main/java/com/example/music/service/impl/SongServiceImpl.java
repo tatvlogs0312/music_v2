@@ -1,19 +1,23 @@
 package com.example.music.service.impl;
 
+import com.example.music.domain.Albums;
 import com.example.music.domain.Artist;
 import com.example.music.domain.ListenHistory;
 import com.example.music.domain.Song;
+import com.example.music.model.albums.AlbumsDetailsDTO;
+import com.example.music.model.artist.ArtistDetailsDTO;
 import com.example.music.model.song.SongDTO;
 import com.example.music.model.artist.ArtistOfSongDTO;
 import com.example.music.model.song.SongHistoryDTO;
 import com.example.music.model.song.SongOtherDTO;
+import com.example.music.repository.AlbumsRepository;
 import com.example.music.repository.ArtistRepository;
 import com.example.music.repository.ListenHistoryRepository;
 import com.example.music.repository.SongRepository;
 import com.example.music.repository.UserRepository;
+import com.example.music.repository.custom.ArtistRepositoryCustom;
 import com.example.music.service.SongService;
 
-import com.example.music.service.custom.ArtistCustomService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +32,10 @@ public class SongServiceImpl implements SongService {
 
   private final SongRepository songRepository;
   private final ArtistRepository artistRepository;
+  private final AlbumsRepository albumsRepository;
   private final UserRepository userRepository;
   private final ListenHistoryRepository listenHistoryRepository;
-  private final ArtistCustomService artistCustomService;
+  private final ArtistRepositoryCustom artistRepositoryCustom;
 
   @Override
   public SongDTO findSongByID(Long idSong) {
@@ -66,7 +71,7 @@ public class SongServiceImpl implements SongService {
     List<Long> idSongs = listenHistories.stream().map(ListenHistory::getSongId).toList();
     List<Song> songs = songRepository.findAllByIdIn(idSongs);
     List<SongHistoryDTO> songDTOS = new ArrayList<>();
-    List<ArtistOfSongDTO> artistOfSongDTOS = artistCustomService.getArtistsOfSong(idSongs);
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
     songs.forEach(
         x -> {
           SongHistoryDTO songDTO = new SongHistoryDTO();
@@ -102,7 +107,7 @@ public class SongServiceImpl implements SongService {
   public List<SongOtherDTO> getSongOther(Long songID) {
     List<Song> songs = songRepository.getSongOtherLimit6(songID);
     List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
-    List<ArtistOfSongDTO> artistOfSongDTOS = artistCustomService.getArtistsOfSong(idSongs);
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
     List<SongOtherDTO> songOther = new ArrayList<>();
     songs.forEach(
         x -> {
@@ -123,5 +128,77 @@ public class SongServiceImpl implements SongService {
           songOther.add(songDTO);
         });
     return songOther;
+  }
+
+  @Override
+  public AlbumsDetailsDTO getAllByAlbums(Long idAlbums) {
+    AlbumsDetailsDTO albumsDetailsDTO = new AlbumsDetailsDTO();
+    Optional<Albums> albumsOpt = albumsRepository.findById(idAlbums);
+    if (albumsOpt.isPresent()) {
+      Albums albums = albumsOpt.get();
+      albumsDetailsDTO.setAlbumsName(albums.getAlbumsName());
+      albumsDetailsDTO.setAlbumsImage(albums.getUrlImageAlbums());
+      List<Song> songs = songRepository.getAllByAlbums(idAlbums);
+      List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+      List<ArtistOfSongDTO> artistOfSongDTOS =
+          artistRepositoryCustom.getAllArtistOfSongData(idSongs);
+      List<SongDTO> songData = new ArrayList<>();
+      songs.forEach(
+          x -> {
+            SongDTO songDTO = new SongDTO();
+            songDTO.setId(x.getId());
+            songDTO.setName(x.getName());
+            songDTO.setUrlImage(x.getUrlImage());
+            songDTO.setLength(x.getLength());
+            songDTO.setYear(x.getYear());
+            var artists =
+                artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+            String artistList = "";
+            if (!artists.isEmpty()) {
+              artistList =
+                  artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+            }
+            songDTO.setArtists(artistList);
+            songData.add(songDTO);
+          });
+      albumsDetailsDTO.setSongOfAlbums(songData);
+    }
+    return albumsDetailsDTO;
+  }
+
+  @Override
+  public ArtistDetailsDTO getAllByArtist(Long idArtist) {
+    ArtistDetailsDTO artistDetailsDTO = new ArtistDetailsDTO();
+    Optional<Albums> albumsOpt = albumsRepository.findById(idArtist);
+    if (albumsOpt.isPresent()) {
+      Albums albums = albumsOpt.get();
+      artistDetailsDTO.setArtistName(albums.getAlbumsName());
+      artistDetailsDTO.setArtistImage(albums.getUrlImageAlbums());
+      List<Song> songs = songRepository.getAllByArtist(idArtist);
+      List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+      List<ArtistOfSongDTO> artistOfSongDTOS =
+          artistRepositoryCustom.getAllArtistOfSongData(idSongs);
+      List<SongDTO> songData = new ArrayList<>();
+      songs.forEach(
+          x -> {
+            SongDTO songDTO = new SongDTO();
+            songDTO.setId(x.getId());
+            songDTO.setName(x.getName());
+            songDTO.setUrlImage(x.getUrlImage());
+            songDTO.setLength(x.getLength());
+            songDTO.setYear(x.getYear());
+            var artists =
+                artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+            String artistList = "";
+            if (!artists.isEmpty()) {
+              artistList =
+                  artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+            }
+            songDTO.setArtists(artistList);
+            songData.add(songDTO);
+          });
+      artistDetailsDTO.setSongOfArtist(songData);
+    }
+    return artistDetailsDTO;
   }
 }

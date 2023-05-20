@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/artist")
@@ -27,5 +27,15 @@ public class ArtistController {
     }
     model.addAttribute("artists",artistService.getAllArtistData());
     return "artist";
+  }
+
+  @GetMapping("/details/{id}")
+  public String getArtistDetail(@PathVariable Long id, Model model, HttpServletRequest request){
+    if (Objects.nonNull(request.getUserPrincipal())) {
+      String email = request.getUserPrincipal().getName();
+      var user = userService.me(email);
+      model.addAttribute("user", user);
+    }
+    return "";
   }
 }

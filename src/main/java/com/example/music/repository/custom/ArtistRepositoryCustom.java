@@ -1,3 +1,8 @@
 package com.example.music.repository.custom;
 
-public interface ArtistRepositoryCustom {}
+import com.example.music.model.artist.ArtistOfSongDTO;
+import java.util.List;
+
+public interface ArtistRepositoryCustom {
+  List<ArtistOfSongDTO> getAllArtistOfSongData(List<Long> idSong);
+}

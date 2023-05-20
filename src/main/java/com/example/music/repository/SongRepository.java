@@ -26,4 +26,22 @@ public interface SongRepository extends JpaRepository<Song, Long>, JpaSpecificat
               + "AND s.id <> :songID\n"
               + "ORDER BY RAND() LIMIT 6")
   List<Song> getSongOtherLimit6(Long songID);
+
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT * FROM song s  \n"
+              + "JOIN albums_song as2 ON as2.song_id = s.id \n"
+              + "                     AND as2.albums_id = :idAlbums\n"
+              + "ORDER BY s.name;")
+  List<Song> getAllByAlbums(Long idAlbums);
+
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT * FROM song s  \n"
+              + "JOIN artist_song as2 ON as2.song_id = s.id \n"
+              + "                     AND as2.artist_id = :idArtist\n"
+              + "ORDER BY s.name")
+  List<Song> getAllByArtist(Long idArtist);
 }
