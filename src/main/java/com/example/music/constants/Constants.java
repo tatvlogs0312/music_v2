@@ -7,6 +7,10 @@ public class Constants {
 
   public static final String authenImage = "authen.png";
 
+  public static final String albums = "albums";
+
+  public static final String artist = "artist";
+
   public static class Role {
     private Role(){
 

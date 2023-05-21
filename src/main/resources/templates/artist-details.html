@@ -9,12 +9,14 @@
   <title>Document</title>
   <link rel="stylesheet" th:href="@{/css/reset.css}"/>
   <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
-  <link rel="stylesheet" th:href="@{/css/music-card.css}"/>
-  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}" />
-  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/css/details.css}"/>
+  <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}"/>
+  <link rel="stylesheet"
+        th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css}"/>
 </head>
 
-<body id="body-pd">
+<body style="padding: 0;">
 <!-- Start Header -->
 <header class="header" id="header" style="background-color: #222f3e; min-height: 80px">
   <!-- <div class="header_toggle">
@@ -113,14 +115,14 @@
         </div>
         <!-- Playlist -->
         <div>
-          <a th:href="@{/albums}" class="nav_link active">
+          <a th:href="@{/albums}" class="nav_link">
             <i class="fas fa-list-ul"></i>
             <span class="nav_name">Playlist</span>
           </a>
         </div>
         <!-- Artist -->
         <div>
-          <a th:href="@{/artist}" class="nav_link">
+          <a th:href="@{/artist}" class="nav_link active">
             <i class="fas fa-microphone-lines"></i>
             <span class="nav_name">Ca sĩ</span>
           </a>
@@ -145,22 +147,28 @@
 </div>
 <!--Container Main start-->
 <div class="main">
-  <main style="margin: 100px 50px;">
-    <div>
-      <h4>Playlist</h4>
+  <main>
+    <div class="title">
+      <div class="albums-title">
+        <div><img th:src="@{${'/image/artist/' + artist.artistImage}}" alt="" srcset=""></div>
+        <div class="albums-name" th:text="${artist.artistName}"></div>
+      </div>
     </div>
-    <div>
-      <div class="row">
-        <div class="col-md-2" th:each="album : ${albums}">
-          <a th:href="@{${'/albums/details/' + album.id}}">
-            <section class="card-music">
-              <div class="img-holder">
-                <img th:src="@{${'/image/album/' + album.urlImageAlbums}}" alt="" />
+    <div class="playlist">
+      <div style="margin-left: 70px;">
+        <div class="playlist-item" th:each="song : ${artist.songOfArtist}">
+          <a href="">
+            <div class="playlist-item-info">
+              <div class="orther-name-img">
+                <img th:src="@{${'/image/song/' + song.urlImage}}" alt="">
+                <div class="playlist-item-info-name">
+                  <div class="playlist-item-song" th:text="${song.name}"></div>
+                  <div class="playlist-item-artist" th:text="${song.artists}"></div>
+
+                </div>
               </div>
-              <div class="text">
-                <h2 style="font-size: 12px" th:text="${album.albumsName}"></h2>
-              </div>
-            </section>
+              <div><span>5:20</span></div>
+            </div>
           </a>
         </div>
       </div>

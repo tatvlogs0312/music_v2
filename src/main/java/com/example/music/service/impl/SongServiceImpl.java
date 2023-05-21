@@ -169,11 +169,11 @@ public class SongServiceImpl implements SongService {
   @Override
   public ArtistDetailsDTO getAllByArtist(Long idArtist) {
     ArtistDetailsDTO artistDetailsDTO = new ArtistDetailsDTO();
-    Optional<Albums> albumsOpt = albumsRepository.findById(idArtist);
-    if (albumsOpt.isPresent()) {
-      Albums albums = albumsOpt.get();
-      artistDetailsDTO.setArtistName(albums.getAlbumsName());
-      artistDetailsDTO.setArtistImage(albums.getUrlImageAlbums());
+    Optional<Artist> artistOptional = artistRepository.findById(idArtist);
+    if (artistOptional.isPresent()) {
+      Artist artist = artistOptional.get();
+      artistDetailsDTO.setArtistName(artist.getName());
+      artistDetailsDTO.setArtistImage(artist.getUrlAvatar());
       List<Song> songs = songRepository.getAllByArtist(idArtist);
       List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
       List<ArtistOfSongDTO> artistOfSongDTOS =

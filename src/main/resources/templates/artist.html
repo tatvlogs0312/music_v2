@@ -152,7 +152,7 @@
     <div>
       <div class="row">
         <div class="col-md-2" th:each="artist : ${artists}">
-          <a href="">
+          <a th:href="@{${'/artist/details/' + artist.id}}">
             <section class="card-music">
               <div class="img-holder">
                 <img th:src="@{${'/image/artist/' + artist.urlAvatar}}" alt="" />
