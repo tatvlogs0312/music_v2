@@ -11,4 +11,6 @@ public interface UserService {
   Optional<User> findByEmail(String email);
 
   Me me(String email);
+
+  void saveHistory(Long idUser, Long idSong);
 }

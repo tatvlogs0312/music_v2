@@ -29,6 +29,7 @@ public class MusicPageController {
       String email = request.getUserPrincipal().getName();
       var user = userService.me(email);
       model.addAttribute("user", user);
+      userService.saveHistory(user.getId(),id);
     }
     model.addAttribute("song", songService.findSongByID(id));
     model.addAttribute("songOthers", songService.getSongOther(id));

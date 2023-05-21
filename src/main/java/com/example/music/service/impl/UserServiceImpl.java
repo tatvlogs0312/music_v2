@@ -1,13 +1,14 @@
 package com.example.music.service.impl;
 
 import com.example.music.constants.Constants;
-import com.example.music.domain.Role;
+import com.example.music.domain.ListenHistory;import com.example.music.domain.Role;
 import com.example.music.domain.User;
 import com.example.music.model.user.UserRegisterDTO;
 import com.example.music.model.user.Me;
-import com.example.music.repository.RoleRepository;
+import com.example.music.repository.ListenHistoryRepository;import com.example.music.repository.RoleRepository;
 import com.example.music.repository.UserRepository;
 import com.example.music.service.UserService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService {
   private final RoleRepository repository;
 
   private final BCryptPasswordEncoder passwordEncoder;
+
+  private final ListenHistoryRepository listenHistoryRepository;
 
   @Override
   public void saveUser(UserRegisterDTO userRegisterDTO) {
@@ -43,9 +46,9 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public Me me(String email){
+  public Me me(String email) {
     Optional<User> userOptional = userRepository.findByEmail(email);
-    if (userOptional.isPresent()){
+    if (userOptional.isPresent()) {
       User user = userOptional.get();
       Me me = new Me();
       me.setId(user.getId());
@@ -56,5 +59,15 @@ public class UserServiceImpl implements UserService {
       return me;
     }
     return null;
+  }
+
+  @Override
+  public void saveHistory(Long idUser, Long idSong) {
+    Optional<ListenHistory> listenHistoryOptional = listenHistoryRepository.findAllByUserIdAndSongId(idUser,idSong);
+    if(listenHistoryOptional.isPresent()){
+      listenHistoryRepository.updateTimeListen(idUser, idSong, LocalDateTime.now());
+    } else {
+      listenHistoryRepository.save(new ListenHistory(idSong,idUser));
+    }
   }
 }

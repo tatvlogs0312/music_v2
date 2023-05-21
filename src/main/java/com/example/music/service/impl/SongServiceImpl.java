@@ -136,6 +136,7 @@ public class SongServiceImpl implements SongService {
     Optional<Albums> albumsOpt = albumsRepository.findById(idAlbums);
     if (albumsOpt.isPresent()) {
       Albums albums = albumsOpt.get();
+      albumsDetailsDTO.setAlbumsId(albums.getId());
       albumsDetailsDTO.setAlbumsName(albums.getAlbumsName());
       albumsDetailsDTO.setAlbumsImage(albums.getUrlImageAlbums());
       List<Song> songs = songRepository.getAllByAlbums(idAlbums);
@@ -200,5 +201,32 @@ public class SongServiceImpl implements SongService {
       artistDetailsDTO.setSongOfArtist(songData);
     }
     return artistDetailsDTO;
+  }
+
+  @Override
+  public List<SongOtherDTO> getSongOtherInAlbums(Long songID, Long albumsID) {
+    List<Song> songs = songRepository.getOtherSongInAlbums(songID, albumsID);
+    List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
+    List<SongOtherDTO> songOther = new ArrayList<>();
+    songs.forEach(
+        x -> {
+          SongOtherDTO songDTO = new SongOtherDTO();
+          songDTO.setId(x.getId());
+          songDTO.setName(x.getName());
+          songDTO.setUrlImage(x.getUrlImage());
+          songDTO.setLength("5:20");
+          songDTO.setYear(x.getYear());
+          var artists =
+              artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+          String artistList = "";
+          if (!artists.isEmpty()) {
+            artistList =
+                artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+          }
+          songDTO.setArtists(artistList);
+          songOther.add(songDTO);
+        });
+    return songOther;
   }
 }

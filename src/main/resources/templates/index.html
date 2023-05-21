@@ -175,9 +175,7 @@
               <img th:src="@{${'/image/song/'+history.urlImage}}" alt=""/>
               <div>
                 <div class="history-name" th:text="${history.name}"></div>
-                <div class="history-artist" th:each="artist : ${history.artists}">
-                  <a href="" th:text="${artist.name}">con mệt lắm</a>
-                </div>
+                <div class="history-artist" th:text="${history.artists}"></div>
               </div>
               <div class="play-icon-history">
                 <a th:href="@{/music/play(id=${history.id})}">
@@ -198,7 +196,7 @@
       <!-- Tên -->
       <div>
         <div>
-          <a href="">More like RAP VIET</a>
+          <a href="">Nhạc thịnh hành</a>
         </div>
       </div>
       <!-- Các thẻ -->

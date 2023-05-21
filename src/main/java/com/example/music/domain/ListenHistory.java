@@ -33,4 +33,10 @@ public class ListenHistory {
 
   @Column(name = "listen_time")
   private LocalDateTime listenTime;
+
+  public ListenHistory(Long songId, Long userId){
+    this.songId = songId;
+    this.userId = userId;
+    this.listenTime = LocalDateTime.now();
+  }
 }

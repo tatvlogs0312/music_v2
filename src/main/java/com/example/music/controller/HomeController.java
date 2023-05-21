@@ -30,7 +30,7 @@ public class HomeController {
       model.addAttribute("user", user);
       model.addAttribute("histories", songService.findHistory(user.getId()));
     }
-    model.addAttribute("songs", songService.getNewestMusic());
+    model.addAttribute("songs", songService.getTrendingMusic());
     model.addAttribute("artists", artistService.getArtistLimit10());
     model.addAttribute("albums", albumsService.getAlbumsLimit6());
     return "index";

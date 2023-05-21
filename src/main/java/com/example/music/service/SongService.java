@@ -22,4 +22,6 @@ public interface SongService {
   AlbumsDetailsDTO getAllByAlbums(Long idAlbums);
 
   ArtistDetailsDTO getAllByArtist(Long idArtist);
+
+  List<SongOtherDTO> getSongOtherInAlbums(Long songID, Long albumsID);
 }

@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AlbumsDetailsDTO {
+  private Long albumsId;
   private String albumsName;
   private String albumsImage;
   List<SongDTO> songOfAlbums;

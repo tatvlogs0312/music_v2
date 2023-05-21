@@ -35,7 +35,7 @@ public class AlbumsController {
     return "albums";
   }
 
-    @GetMapping("/details/{id}")
+  @GetMapping("/details/{id}")
   public String getAlbumsDetail(@PathVariable Long id, Model model, HttpServletRequest request) {
     if (Objects.nonNull(request.getUserPrincipal())) {
       String email = request.getUserPrincipal().getName();
@@ -44,5 +44,24 @@ public class AlbumsController {
     }
     model.addAttribute(Constants.albums, songService.getAllByAlbums(id));
     return "albums-details";
+  }
+
+  @GetMapping("/details/{idAlbums}/{idMusic}")
+  public String getMusicAlbums(
+      @PathVariable Long idAlbums,
+      @PathVariable Long idMusic,
+      Model model,
+      HttpServletRequest request) {
+    if (Objects.nonNull(request.getUserPrincipal())) {
+      String email = request.getUserPrincipal().getName();
+      var user = userService.me(email);
+      model.addAttribute("user", user);
+      userService.saveHistory(user.getId(), idMusic);
+    }
+    model.addAttribute("albumsID", idAlbums);
+    model.addAttribute("song", songService.findSongByID(idMusic));
+    model.addAttribute("songOthers", songService.getSongOtherInAlbums(idMusic, idAlbums));
+    model.addAttribute("albums", albumsService.getAlbumsOfSong(idAlbums));
+    return "albums-music";
   }
 }

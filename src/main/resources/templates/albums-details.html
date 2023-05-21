@@ -157,14 +157,13 @@
     <div class="playlist">
       <div style="margin-left: 70px;">
         <div class="playlist-item" th:each="song : ${albums.songOfAlbums}">
-          <a href="">
+          <a th:href="@{${'/albums/details/'+albums.albumsId+'/'+song.id}}">
             <div class="playlist-item-info">
               <div class="orther-name-img">
                 <img th:src="@{${'/image/song/' + song.urlImage}}" alt="">
                 <div class="playlist-item-info-name">
                   <div class="playlist-item-song" th:text="${song.name}"></div>
                   <div class="playlist-item-artist" th:text="${song.artists}"></div>
-
                 </div>
               </div>
               <div><span>5:20</span></div>
