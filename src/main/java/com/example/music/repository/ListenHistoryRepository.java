@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface ListenHistoryRepository extends JpaRepository<ListenHistory, Long> {
-  List<ListenHistory> findAllByUserId(Long userId);
+  @Query("select l from listen_history l where l.userId = ?1 order by l.listenTime DESC")
+  List<ListenHistory> findAllByUserIdOrderByListenTimeDesc(Long userId);
 
   Optional<ListenHistory> findAllByUserIdAndSongId(Long userId, Long songId);
 

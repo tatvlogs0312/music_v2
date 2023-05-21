@@ -13,6 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 public interface SongRepository extends JpaRepository<Song, Long>, JpaSpecificationExecutor<Song> {
   List<Song> findAllByIdIn(List<Long> id);
 
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT s.* FROM song s \n"
+              + "JOIN listen_history lh ON s.id = lh.song_id \n"
+              + "WHERE lh.user_id = :userId\n"
+              + "ORDER BY lh.listen_time DESC\n"
+              + "LIMIT 6")
+  List<Song> findHistoryLimit6(Long userId);
+
   @Query(nativeQuery = true, value = "SELECT s.* FROM song s ORDER BY s.create_time DESC LIMIT 6")
   List<Song> findNewestLimit6();
 

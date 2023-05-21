@@ -1,6 +1,6 @@
 package com.example.music.model.song;
 
-import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,4 +16,5 @@ public class SongHistoryDTO {
   private Integer year;
   private Integer length;
   private String artists;
+  private LocalDateTime timeListen;
 }

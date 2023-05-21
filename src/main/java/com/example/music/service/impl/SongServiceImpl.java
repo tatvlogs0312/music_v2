@@ -64,12 +64,8 @@ public class SongServiceImpl implements SongService {
 
   @Override
   public List<SongHistoryDTO> findHistory(Long userID) {
-    List<ListenHistory> listenHistories = listenHistoryRepository.findAllByUserId(userID);
-    if (listenHistories.isEmpty()) {
-      return new ArrayList<>();
-    }
-    List<Long> idSongs = listenHistories.stream().map(ListenHistory::getSongId).toList();
-    List<Song> songs = songRepository.findAllByIdIn(idSongs);
+    List<Song> songs = songRepository.findHistoryLimit6(userID);
+    List<Long> idSongs = songs.stream().map(Song::getId).toList();
     List<SongHistoryDTO> songDTOS = new ArrayList<>();
     List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
     songs.forEach(

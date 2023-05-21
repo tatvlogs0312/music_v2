@@ -11,7 +11,7 @@ import com.example.music.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+import java.util.concurrent.CompletableFuture;import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,11 +63,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void saveHistory(Long idUser, Long idSong) {
-    Optional<ListenHistory> listenHistoryOptional = listenHistoryRepository.findAllByUserIdAndSongId(idUser,idSong);
-    if(listenHistoryOptional.isPresent()){
-      listenHistoryRepository.updateTimeListen(idUser, idSong, LocalDateTime.now());
-    } else {
-      listenHistoryRepository.save(new ListenHistory(idSong,idUser));
-    }
+    CompletableFuture.runAsync(() -> {
+      Optional<ListenHistory> listenHistoryOptional = listenHistoryRepository.findAllByUserIdAndSongId(idUser,idSong);
+      if(listenHistoryOptional.isPresent()){
+        listenHistoryRepository.updateTimeListen(idUser, idSong, LocalDateTime.now());
+      } else {
+        listenHistoryRepository.save(new ListenHistory(idSong,idUser));
+      }
+    });
   }
 }
