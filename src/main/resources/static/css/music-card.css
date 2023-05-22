@@ -23,14 +23,15 @@
 .text {
   margin-top: 1rem;
   line-height: 1;
+  width: 100%;
 }
 
 .text h2 {
   font-size: 15px;
   overflow: hidden;
-  /*white-space: nowrap;*/
+  white-space: nowrap;
   text-overflow: ellipsis;
-  width: 160px;
+  width: 100%;
 }
 
 .play-icon {

@@ -25,6 +25,7 @@ public class UserController {
 
   @PostMapping()
   public String reset(@ModelAttribute("user") MailResetDTO mailResetDTO, Model model) {
+    model.addAttribute("user", new MailResetDTO());
     model.addAttribute("success", userService.resetPassword(mailResetDTO));
     return "reset-password";
   }

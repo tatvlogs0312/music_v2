@@ -34,4 +34,7 @@ public class Artist {
 
   @Column(name = "create_date")
   private LocalDateTime createDate;
+
+  @Column(name = "value_to_search")
+  private String valueToSearch;
 }

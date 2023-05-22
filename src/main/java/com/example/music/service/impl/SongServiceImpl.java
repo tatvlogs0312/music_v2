@@ -6,6 +6,7 @@ import com.example.music.domain.ListenHistory;
 import com.example.music.domain.Song;
 import com.example.music.model.albums.AlbumsDetailsDTO;
 import com.example.music.model.artist.ArtistDetailsDTO;
+import com.example.music.model.search.SearchDTO;
 import com.example.music.model.song.SongDTO;
 import com.example.music.model.artist.ArtistOfSongDTO;
 import com.example.music.model.song.SongHistoryDTO;
@@ -18,7 +19,7 @@ import com.example.music.repository.UserRepository;
 import com.example.music.repository.custom.ArtistRepositoryCustom;
 import com.example.music.service.SongService;
 
-import java.util.ArrayList;
+import com.example.music.utils.VNCharacterUtils;import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -224,5 +225,35 @@ public class SongServiceImpl implements SongService {
           songOther.add(songDTO);
         });
     return songOther;
+  }
+
+  @Override
+  public List<SongDTO> findSongByKeyword(SearchDTO searchDTO) {
+    String keyword = VNCharacterUtils.deAccent(searchDTO.getKeyword());
+    List<Song> songs = songRepository.getAllByKeyword(keyword);
+    List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
+    List<SongDTO> songData = new ArrayList<>();
+    if(!songs.isEmpty()){
+      songs.forEach(
+          x -> {
+            SongDTO songDTO = new SongDTO();
+            songDTO.setId(x.getId());
+            songDTO.setName(x.getName());
+            songDTO.setUrlImage(x.getUrlImage());
+            songDTO.setLength(x.getLength());
+            songDTO.setYear(x.getYear());
+            var artists =
+                artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+            String artistList = "";
+            if (!artists.isEmpty()) {
+              artistList =
+                  artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+            }
+            songDTO.setArtists(artistList);
+            songData.add(songDTO);
+          });
+    }
+    return songData;
   }
 }

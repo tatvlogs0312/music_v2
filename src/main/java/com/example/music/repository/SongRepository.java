@@ -71,4 +71,15 @@ public interface SongRepository extends JpaRepository<Song, Long>, JpaSpecificat
   @Transactional
   @Query(nativeQuery = true, value = "UPDATE song SET listens = :listens WHERE id = :id")
   void updateListen(Integer listens, Long id);
+
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT DISTINCT s.* FROM song s  \n"
+              + "JOIN artist_song as2 ON as2.song_id = s.id \n"
+              + "JOIN artist a ON a.id = as2.artist_id \n"
+              + "WHERE s.value_search like CONCAT('%',:keyword,'%') \n"
+              + "OR a.value_to_search like CONCAT('%',:keyword,'%') \n"
+              + "ORDER BY s.name ")
+  List<Song> getAllByKeyword(String keyword);
 }
