@@ -39,7 +39,7 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li>
-              <a class="dropdown-item" href="#">Hồ sơ</a>
+              <a class="dropdown-item" th:href="@{/change}">Đổi mật khẩu</a>
             </li>
             <li>
               <a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a>
@@ -115,14 +115,14 @@
         </div>
         <!-- Playlist -->
         <div>
-          <a th:href="@{/albums}" class="nav_link">
+          <a th:href="@{/albums}" class="nav_link active">
             <i class="fas fa-list-ul"></i>
             <span class="nav_name">Playlist</span>
           </a>
         </div>
         <!-- Artist -->
         <div>
-          <a th:href="@{/artist}" class="nav_link active">
+          <a th:href="@{/artist}" class="nav_link">
             <i class="fas fa-microphone-lines"></i>
             <span class="nav_name">Ca sĩ</span>
           </a>

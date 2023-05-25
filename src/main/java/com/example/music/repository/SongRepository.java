@@ -26,7 +26,7 @@ public interface SongRepository extends JpaRepository<Song, Long>, JpaSpecificat
   @Query(nativeQuery = true, value = "SELECT s.* FROM song s ORDER BY s.create_time DESC LIMIT 6")
   List<Song> findNewestLimit6();
 
-  @Query(nativeQuery = true, value = "SELECT s.* FROM song s ORDER BY s.listens DESC LIMIT 6")
+  @Query(nativeQuery = true, value = "SELECT s.* FROM song s ORDER BY s.listens DESC LIMIT 8")
   List<Song> findTrendingLimit6();
 
   @Query(

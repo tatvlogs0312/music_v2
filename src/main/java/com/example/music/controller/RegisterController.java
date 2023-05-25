@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping()
+@RequestMapping("/register")
 @RequiredArgsConstructor
 public class RegisterController {
     private final UserService userService;
 
-    @GetMapping("/register")
+    @GetMapping()
     public String register(Model model) {
         model.addAttribute("user", new UserRegisterDTO());
         return "register";
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     public String saveUser(@ModelAttribute("user") UserRegisterDTO userRegisterDTO, Model model) {
         Optional<User> user = userService.findByEmail(userRegisterDTO.getEmail());
         if (user.isPresent()) {

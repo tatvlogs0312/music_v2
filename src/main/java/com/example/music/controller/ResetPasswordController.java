@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/reset")
 @RequiredArgsConstructor
-public class UserController {
+public class ResetPasswordController {
 
   private final UserService userService;
 

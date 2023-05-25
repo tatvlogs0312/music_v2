@@ -5,6 +5,7 @@ import com.example.music.domain.ListenHistory;
 import com.example.music.domain.Role;
 import com.example.music.domain.User;
 import com.example.music.model.mail.MailResetDTO;
+import com.example.music.model.password.ChangePasswordDTO;
 import com.example.music.model.user.UserRegisterDTO;
 import com.example.music.model.user.Me;
 import com.example.music.repository.ListenHistoryRepository;
@@ -14,11 +15,11 @@ import com.example.music.service.UserService;
 import com.example.music.utils.PasswordUtils;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -121,5 +122,25 @@ public class UserServiceImpl implements UserService {
           messageHelper.setText(String.format(Constants.content, password), true);
         };
     javaMailSender.send(message);
+  }
+
+  @Override
+  public String changePassword(ChangePasswordDTO changePasswordDTO, String email) {
+    Optional<User> userOptional = userRepository.findByEmail(email);
+    if (userOptional.isPresent()) {
+      User user = userOptional.get();
+      if (!passwordEncoder.matches(changePasswordDTO.getOldPassword(), user.getPassword())) {
+        return "Mật khẩu không đúng vui lòng thử lại";
+      }
+      if (!Objects.equals(
+          changePasswordDTO.getNewPassword(), changePasswordDTO.getConfirmNewPassword())) {
+        return "Nhập lại mật khẩu không chính xác";
+      }
+
+      user.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+      userRepository.save(user);
+      return "Thay đổi mật khẩu thành công";
+    }
+    return "Có lỗi xảy ra vui lòng thử lại";
   }
 }
