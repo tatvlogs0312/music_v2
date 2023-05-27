@@ -9,6 +9,7 @@ import com.example.music.model.artist.ArtistDetailsDTO;
 import com.example.music.model.search.SearchDTO;
 import com.example.music.model.song.SongDTO;
 import com.example.music.model.artist.ArtistOfSongDTO;
+import com.example.music.model.song.SongDataDTO;
 import com.example.music.model.song.SongHistoryDTO;
 import com.example.music.model.song.SongOtherDTO;
 import com.example.music.repository.AlbumsRepository;
@@ -243,6 +244,34 @@ public class SongServiceImpl implements SongService {
             songDTO.setName(x.getName());
             songDTO.setUrlImage(x.getUrlImage());
             songDTO.setLength(x.getLength());
+            songDTO.setYear(x.getYear());
+            var artists =
+                artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
+            String artistList = "";
+            if (!artists.isEmpty()) {
+              artistList =
+                  artists.stream().map(ArtistOfSongDTO::getName).collect(Collectors.joining(", "));
+            }
+            songDTO.setArtists(artistList);
+            songData.add(songDTO);
+          });
+    }
+    return songData;
+  }
+
+  @Override
+  public List<SongDataDTO> getAllSongData() {
+    List<Song> songs = songRepository.findAll();
+    List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
+    List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
+    List<SongDataDTO> songData = new ArrayList<>();
+    if (!songs.isEmpty()) {
+      songs.forEach(
+          x -> {
+            SongDataDTO songDTO = new SongDataDTO();
+            songDTO.setId(x.getId());
+            songDTO.setName(x.getName());
+            songDTO.setListen(x.getListens());
             songDTO.setYear(x.getYear());
             var artists =
                 artistOfSongDTOS.stream().filter(a -> a.getSongId().equals(x.getId())).toList();
