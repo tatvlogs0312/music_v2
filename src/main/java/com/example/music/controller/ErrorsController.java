@@ -21,7 +21,7 @@ public class ErrorsController implements ErrorController {
       if (statusCode == HttpStatus.NOT_FOUND.value()) {
         return "404";
       } else if (statusCode == HttpStatus.FORBIDDEN.value()) {
-        return "503";
+        return "403";
       } else if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
         return "401";
       }

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Document</title>
+  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
+  <link rel="stylesheet" th:href="@{/css/music-card.css}"/>
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}" />
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css}" />
+</head>
+
+<body id="body-pd">
+<!-- Start Header -->
+<header class="header" id="header" style="background-color: #222f3e; min-height: 80px">
+  <!-- <div class="header_toggle">
+    <i class="bx bx-menu" id="header-toggle" style="color: black"></i>
+  </div> -->
+  <div class="container-fluid d-flex justify-content-end">
+    <!-- authen -->
+    <ul class="navbar-nav flex-row" style="flex-direction: row-reverse; align-items: center">
+      <!-- Avatar -->
+      <th:block sec:authorize="isAuthenticated()">
+        <li class=" nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center justify-content-end" href="#"
+             id="navbarDropdownMenuLink" role="button" data-mdb-toggle="dropdown"
+             aria-expanded="false">
+            <img th:src="@{${'/image/user/'+ user.avatarUrl}}"
+                 class="rounded-circle" height="40"
+                 alt="Portrait of a Woman" loading="lazy"/>
+            <div class="nav-item me-3 me-lg-3" style="color: #eeeeee;padding-left: 10px"
+                 th:text="${user.lastName}"></div>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li>
+              <a class="dropdown-item" th:href="@{/change}">Đổi mật khẩu</a>
+            </li>
+            <li>
+              <a class="dropdown-item" th:href="@{/logout}">Đăng xuất</a>
+            </li>
+          </ul>
+        </li>
+      </th:block>
+
+      <th:block sec:authorize="isAnonymous()">
+        <li class="nav-item me-3 me-lg-3">
+          <a th:href="@{/login}">Đăng nhập</a>
+        </li>
+
+        <li class="nav-item me-3 me-lg-3">
+          <a th:href="@{/register}">Đăng kí</a>
+        </li>
+      </th:block>
+    </ul>
+  </div>
+</header>
+<!-- End Header -->
+
+<div class="l-navbar" id="nav-bar" style="background-color: #222f3e">
+  <!-- navbar -->
+  <nav class="nav">
+    <div>
+      <div class="nav_logo">
+        <div id="logo-main" class="mb-0" style="
+                font-size: 25px;
+                margin-left: -15px;
+                width: 200px !important;
+                display: flex;
+                align-items: center;
+              ">
+            <span id="logo-icon" style="
+                  box-shadow: none !important;
+                  background-color: rgb(27, 34, 44);
+                  border-radius: 20%;
+                  width: 40px;
+                  height: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                ">
+              <i class="fab fa-spotify"
+                 style="color: rgb(238, 237, 237); width: 25px !important"></i>
+            </span>
+          <span id="logo-text" contenteditable="false"
+                style="color: #78e08f; margin-left: 5px"><span>Spotify</span></span>
+        </div>
+      </div>
+      <div class="nav_list">
+        <!-- Home -->
+        <div>
+          <a th:href="@{/}" class="nav_link">
+            <i class="fas fa-house"></i>
+            <span class="nav_name">Khám phá</span>
+          </a>
+        </div>
+        <!-- Trending -->
+        <div>
+          <a href="#" class="nav_link">
+            <i class="fas fa-arrow-trend-up"></i>
+            <span class="nav_name">Bảng xếp hạng</span>
+          </a>
+        </div>
+        <!-- Search -->
+        <div>
+          <a th:href="@{/search}" class="nav_link">
+            <i class="fas fa-magnifying-glass"></i>
+            <span class="nav_name">Tìm kiếm</span>
+          </a>
+        </div>
+        <!-- Playlist -->
+        <div>
+          <a th:href="@{/albums}" class="nav_link">
+            <i class="fas fa-list-ul"></i>
+            <span class="nav_name">Playlist</span>
+          </a>
+        </div>
+        <!-- Artist -->
+        <div>
+          <a th:href="@{/artist}" class="nav_link active">
+            <i class="fas fa-microphone-lines"></i>
+            <span class="nav_name">Ca sĩ</span>
+          </a>
+        </div>
+        <!-- Liked Song -->
+        <div sec:authorize="isAuthenticated()">
+          <a href="#" class="nav_link">
+            <i class="fas fa-heart"></i>
+            <span class="nav_name">Đã thích</span>
+          </a>
+        </div>
+        <!-- Listen -->
+        <div sec:authorize="isAuthenticated()">
+          <a href="#" class="nav_link">
+            <i class="fas fa-compact-disc"></i>
+            <span class="nav_name">Đã nghe</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<!--Container Main start-->
+<div class="main">
+  <main style="margin: 100px 50px;">
+    <h4>admin</h4>
+  </main>
+</div>
+<!--Container Main end-->
+
+<!-- Bootstrap -->
+<script
+    th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js}"></script>
+<!-- MDB -->
+<script type="text/javascript"
+        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js}"></script>
+<!-- jquery -->
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
+
+<script th:src="@{/js/sidebar.js}"></script>
+</body>
+
+</html>

@@ -19,7 +19,8 @@ import com.example.music.repository.UserRepository;
 import com.example.music.repository.custom.ArtistRepositoryCustom;
 import com.example.music.service.SongService;
 
-import com.example.music.utils.VNCharacterUtils;import java.util.ArrayList;
+import com.example.music.utils.VNCharacterUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,7 +98,7 @@ public class SongServiceImpl implements SongService {
 
   @Override
   public List<Song> getTrendingMusic() {
-    return songRepository.findTrendingLimit6();
+    return songRepository.findTrendingLimit12();
   }
 
   @Override
@@ -234,7 +235,7 @@ public class SongServiceImpl implements SongService {
     List<Long> idSongs = songs.stream().map(Song::getId).collect(Collectors.toList());
     List<ArtistOfSongDTO> artistOfSongDTOS = artistRepositoryCustom.getAllArtistOfSongData(idSongs);
     List<SongDTO> songData = new ArrayList<>();
-    if(!songs.isEmpty()){
+    if (!songs.isEmpty()) {
       songs.forEach(
           x -> {
             SongDTO songDTO = new SongDTO();

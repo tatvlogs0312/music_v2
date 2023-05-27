@@ -1,5 +1,7 @@
 package com.example.music.configuration;
 
+import com.example.music.constants.Constants;
+import com.example.music.constants.Constants.Role;
 import com.example.music.service.custom.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,26 +44,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-//        .antMatchers(
-//            "/css/**",
-//            "/image/**",
-//            "/js/**",
-//            "/mp3/**",
-//            "/albums/**",
-//            "/api/v1/**",
-//            "/artist/**",
-//            "/error/**",
-//            "/",
-//            "/login/**",
-//            "/music/**",
-//            "/register/**",
-//            "/reset/**",
-//            "/search/**")
-//        .permitAll()
-//        .antMatchers("/*")
-//        .permitAll()
+        //        .antMatchers(
+        //            "/css/**",
+        //            "/image/**",
+        //            "/js/**",
+        //            "/mp3/**",
+        //            "/albums/**",
+        //            "/api/v1/**",
+        //            "/artist/**",
+        //            "/error/**",
+        //            "/",
+        //            "/login/**",
+        //            "/music/**",
+        //            "/register/**",
+        //            "/reset/**",
+        //            "/search/**")
+        //        .permitAll()
+        //        .antMatchers("/*")
+        //        .permitAll()
         .antMatchers("/change/**")
         .authenticated()
+        .antMatchers("/admin/**")
+        .hasAuthority(Role.ADMIN)
         .anyRequest()
         .permitAll()
         .and()
