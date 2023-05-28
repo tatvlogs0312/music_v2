@@ -1,8 +1,10 @@
 package com.example.music.service.impl;
 
+import com.example.music.model.ArtistDataDTO;
 import com.example.music.model.DataDTO;
 import com.example.music.repository.custom.DataRepository;
 import com.example.music.service.DataService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -17,5 +19,10 @@ public class DataServiceImpl implements DataService {
   public DataDTO getDataNumber() {
     DataDTO dataDTO = dataRepository.getData();
     return dataDTO;
+  }
+
+  @Override
+  public List<ArtistDataDTO> getArtistData() {
+    return dataRepository.gatArtistDTO();
   }
 }

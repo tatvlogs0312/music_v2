@@ -7,11 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Document</title>
-  <link rel="stylesheet" th:href="@{/css/reset.css}"/>
-  <link rel="stylesheet" th:href="@{/css/sidebar.css}"/>
-  <link rel="stylesheet" th:href="@{/css/music-card.css}"/>
+  <!-- reset css -->
+  <link rel="stylesheet" th:href="@{/css/reset.css}" />
+  <!-- css -->
+  <link rel="stylesheet" th:href="@{/css/sidebar.css}" />
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}" />
   <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css}" />
+  <!-- adminlte 3 -->
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css}" />
 </head>
 
 <body id="body-pd">
@@ -36,6 +39,9 @@
                  th:text="${user.lastName}"></div>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li sec:authorize="hasAuthority('ADMIN')">
+              <a class="dropdown-item" th:href="@{/admin}">Trang quản lý</a>
+            </li>
             <li>
               <a class="dropdown-item" th:href="@{/change}">Đổi mật khẩu</a>
             </li>
@@ -120,18 +126,18 @@
         </div>
         <!-- Artist -->
         <div>
-          <a th:href="@{/artist}" class="nav_link active">
+          <a th:href="@{/artist}" class="nav_link">
             <i class="fas fa-microphone-lines"></i>
             <span class="nav_name">Ca sĩ</span>
           </a>
         </div>
         <!-- Liked Song -->
-        <div sec:authorize="isAuthenticated()">
-          <a href="#" class="nav_link">
-            <i class="fas fa-heart"></i>
-            <span class="nav_name">Đã thích</span>
-          </a>
-        </div>
+<!--        <div sec:authorize="isAuthenticated()">-->
+<!--          <a href="#" class="nav_link">-->
+<!--            <i class="fas fa-heart"></i>-->
+<!--            <span class="nav_name">Đã thích</span>-->
+<!--          </a>-->
+<!--        </div>-->
         <!-- Listen -->
         <div sec:authorize="isAuthenticated()">
           <a href="#" class="nav_link">
@@ -146,20 +152,110 @@
 <!--Container Main start-->
 <div class="main">
   <main style="margin: 100px 50px;">
-    <h4>admin</h4>
+    <div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="fas fa-guitar"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Bài hát</span>
+              <span class="info-box-number" th:text="${number.songNumber}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-microphone-lines"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Ca sĩ</span>
+              <span class="info-box-number" th:text="${number.artistNumber}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-list-ul"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Albums</span>
+              <span class="info-box-number" th:text="${number.albumsNumber}"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-user"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Người dùng</span>
+              <span class="info-box-number" th:text="${number.userNumber}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <h4 style="margin-top: 50px;">Danh sách bài hát</h4>
+      </div>
+      <table id="song" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+          <th>mã bài hát</th>
+          <th>tên bài hát</th>
+          <th>ca sĩ</th>
+          <th>năm sản xuất</th>
+          <th>lượt nghe</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="song : ${songs}">
+          <td th:text="${song.id}"></td>
+          <td th:text="${song.name}"></td>
+          <td th:text="${song.artists}"></td>
+          <td th:text="${song.year}"></td>
+          <td th:text="${song.listen}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div>
+        <h4 style="margin-top: 50px;">Danh sách ca sĩ</h4>
+      </div>
+      <table id="artist" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+          <th>mã ca sĩ</th>
+          <th>tên ca sĩ</th>
+          <th>số lượng bài hát</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="artist : ${artistsData}">
+          <td th:text="${artist.id}"></td>
+          <td th:text="${artist.name}"></td>
+          <td th:text="${artist.numberSong}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </main>
 </div>
 <!--Container Main end-->
 
-<!-- Bootstrap -->
-<script
-    th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js}"></script>
-<!-- MDB -->
-<script type="text/javascript"
-        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js}"></script>
-<!-- jquery -->
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js}"></script>
 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js}"></script>
-
+<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js}"></script>
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js}"></script>
+<script th:src="@{https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 </body>
 

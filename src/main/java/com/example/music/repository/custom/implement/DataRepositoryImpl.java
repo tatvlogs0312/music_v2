@@ -1,9 +1,11 @@
 package com.example.music.repository.custom.implement;
 
+import com.example.music.model.ArtistDataDTO;
 import com.example.music.model.DataDTO;
 import com.example.music.repository.custom.DataRepository;
 import com.example.music.utils.CommonUtils;
 import com.example.music.utils.LogUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.EntityManager;
@@ -45,5 +47,25 @@ public class DataRepositoryImpl implements DataRepository {
       }
     }
     return dataDTO;
+  }
+
+  @Override
+  public List<ArtistDataDTO> gatArtistDTO() {
+    List<ArtistDataDTO> artistDataDTOS = new ArrayList<>();
+    String sql =
+        "SELECT a.id, a.name , COUNT(as2.song_id) \n"
+            + "FROM artist a \n"
+            + "LEFT JOIN artist_song as2 ON as2.artist_id = a.id\n"
+            + "GROUP BY a.id";
+    Query query = entityManager.createNativeQuery(sql);
+    List<Object[]> result = query.getResultList();
+    if (!result.isEmpty()) {
+      result.forEach(
+          x -> {
+            ArtistDataDTO artistDataDTO = new ArtistDataDTO(x);
+            artistDataDTOS.add(artistDataDTO);
+          });
+    }
+    return artistDataDTOS;
   }
 }
