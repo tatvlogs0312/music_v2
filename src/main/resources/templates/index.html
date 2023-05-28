@@ -237,7 +237,7 @@
           <div class="carousel-inner" role="listbox">
             <div class="carousel-item" th:each="artist : ${artists}">
               <div class="col-md-2">
-                <a href="">
+                <a th:href="@{${'/artist/details/' + artist.id}}">
                   <div class="card">
                     <div class="card-img">
                       <img th:src="@{${'/image/artist/' + artist.urlAvatar}}" class="img-fluid"/>
@@ -270,7 +270,7 @@
       <div>
         <div class="row">
           <div class="col-md-2" th:each="album : ${albums}">
-            <a href="">
+            <a th:href="@{${'/albums/details/' + album.id}}">
               <section class="card-music">
                 <div class="img-holder">
                   <img th:src="@{${'image/album/' + album.urlImageAlbums}}" alt=""/>
