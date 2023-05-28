@@ -33,6 +33,7 @@ public class AdminController {
     model.addAttribute("number", dataService.getDataNumber());
     model.addAttribute("songs", songService.getAllSongData());
     model.addAttribute("artistsData", dataService.getArtistData());
+    model.addAttribute("albummsData", dataService.getAlbumsData());
     return "admin";
   }
 }

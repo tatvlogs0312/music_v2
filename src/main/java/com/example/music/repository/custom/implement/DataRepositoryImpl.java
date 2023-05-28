@@ -1,5 +1,6 @@
 package com.example.music.repository.custom.implement;
 
+import com.example.music.model.AlbumsDataDTO;
 import com.example.music.model.ArtistDataDTO;
 import com.example.music.model.DataDTO;
 import com.example.music.repository.custom.DataRepository;
@@ -67,5 +68,25 @@ public class DataRepositoryImpl implements DataRepository {
           });
     }
     return artistDataDTOS;
+  }
+
+  @Override
+  public List<AlbumsDataDTO> getAlbumsDTO() {
+    List<AlbumsDataDTO> albumsDataDTOS = new ArrayList<>();
+    String sql =
+        "SELECT a.id, a.albums_name , COUNT(as2.song_id) \n"
+            + "FROM albums a \n"
+            + "LEFT JOIN artist_song as2 ON as2.artist_id = a.id\n"
+            + "GROUP BY a.id";
+    Query query = entityManager.createNativeQuery(sql);
+    List<Object[]> result = query.getResultList();
+    if (!result.isEmpty()) {
+      result.forEach(
+          x -> {
+            AlbumsDataDTO albumsDataDTO = new AlbumsDataDTO(x);
+            albumsDataDTOS.add(albumsDataDTO);
+          });
+    }
+    return albumsDataDTOS;
   }
 }

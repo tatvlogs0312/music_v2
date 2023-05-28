@@ -1,5 +1,6 @@
 package com.example.music.service.impl;
 
+import com.example.music.model.AlbumsDataDTO;
 import com.example.music.model.ArtistDataDTO;
 import com.example.music.model.DataDTO;
 import com.example.music.repository.custom.DataRepository;
@@ -24,5 +25,10 @@ public class DataServiceImpl implements DataService {
   @Override
   public List<ArtistDataDTO> getArtistData() {
     return dataRepository.gatArtistDTO();
+  }
+
+  @Override
+  public List<AlbumsDataDTO> getAlbumsData() {
+    return dataRepository.getAlbumsDTO();
   }
 }
